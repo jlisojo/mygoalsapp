@@ -1,13 +1,9 @@
-// Testing git
-// Josh Lisojo
-// Cool! :)
-// Very cool! :p
-import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import * as firebase from 'firebase';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import * as firebase from 'firebase';
+import { StatusBar } from 'expo-status-bar';
 import { Header, Button, Spinner, Card, CardSection } from './src/components/common';
 import LoginForm from './src/components/LoginForm';
 import reducers from './src/reducers';
@@ -87,7 +83,7 @@ class App extends Component {
       <Provider store={createStore(reducers)}>
         <View style={styles.container}>
           <StatusBar style="auto" />
-          <Header headerText="Authenticator" />
+          <Header headerText="Goals" />
           {this.renderContent()}
         </View>
       </Provider>
