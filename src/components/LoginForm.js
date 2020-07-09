@@ -6,7 +6,7 @@ import {
   loginEmailChanged,
   loginPasswordChanged,
   loginUser
-} from '../actions';
+} from '../actions/LoginActions';
 import { Header, Button, Card, CardSection, Input, Spinner } from './common';
 
 class LoginForm extends Component {

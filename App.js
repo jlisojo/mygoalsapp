@@ -5,46 +5,48 @@ import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import * as firebase from 'firebase';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import { StatusBar } from 'expo-status-bar';
 import { Header, Button, Spinner, Card, CardSection } from './src/components/common';
-// import LoginForm from './src/components/LoginForm';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
+import CreateGoalsScreen from './src/screens/CreateGoalsScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
 import reducers from './src/reducers';
 
-// const BottomTabNavigatorConfig = {
-//   tabBarOptions: {
-//     activeTintColor: '#e91e63',
-//     labelStyle: {
-//       fontSize: 12,
-//     },
-//     style: {
-//       backgroundColor: 'blue',
-//     },
-//   },
-//   defaultNavigationOptions: {
-//     tabBarVisible: true,
-//   }
-// };
-
-// const AuthenticationNavigator = createBottomTabNavigator({
-//   login: { screen: LoginScreen },
-//   register: { screen: RegisterScreen }
-// }, BottomTabNavigatorConfig);
-
-// const AppNavigator = createBottomTabNavigator({
-//   auth: AuthenticationNavigator,
-// }, BottomTabNavigatorConfig);
-
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+function MainTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Create Goals" component={CreateGoalsScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+    </Tab.Navigator>
+  );
+}
+
+function AuthenticationTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Login" component={LoginScreen} />
+      <Tab.Screen name="Register" component={RegisterScreen} />
+      <Tab.Screen name="Main" component={MainTabs} />
+    </Tab.Navigator>
+  );
+}
 
 class App extends Component {
 
   state = { loggedIn: null, uid: null };
 
   componentDidMount() {
+    ///////////////////////////////////////
     // Firebase configuration
+    ///////////////////////////////////////
     const firebaseConfig = {
       apiKey: "AIzaSyAPnfso3y6m659HHaI3qUs17p4cPxP9_Xg",
       authDomain: "mygoalsapp-5bb86.firebaseapp.com",
@@ -86,39 +88,15 @@ class App extends Component {
   // deleteData(dream) {
   // }
 
-  // renderContent() {
-  //   switch(this.state.loggedIn) {
-  //     case true:
-  //       return (
-  //         <Card>
-  //           <CardSection>
-  //             <Button onPress={this.createData.bind(this)}>
-  //               Create Data
-  //             </Button>
-  //           </CardSection>
-  //           <CardSection>
-  //             <Button onPress={() => firebase.auth().signOut()}>
-  //               Log Out
-  //             </Button>
-  //           </CardSection>
-  //         </Card>
-  //       );
-  //     case false:
-  //       return <LoginForm />;
-  //     default:
-  //       return <Spinner size="large" />
-  //   }
-  // }
 
   render() {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
       <Provider store={store}>
         <NavigationContainer>
-          <Tab.Navigator>
-            <Tab.Screen name="Login" component={LoginScreen} />
-            <Tab.Screen name="Register" component={RegisterScreen} />
-          </Tab.Navigator>
+          <Stack.Navigator>
+            <Stack.Screen name="MyGoals" component={AuthenticationTabs} />
+          </Stack.Navigator>
         </NavigationContainer>
       </Provider>
     );
