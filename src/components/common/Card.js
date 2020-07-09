@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 const Card = (props) => {
   return (
-    <View behavior={"padding"} style={styles.containerStyle}>
+    <View style={styles.containerStyle}>
       {props.children}
     </View>
   );
@@ -11,14 +11,20 @@ const Card = (props) => {
 
 const styles = {
   containerStyle: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    flex: 1,
+    width: '100%',
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 2,
+    // marginLeft: 5,
+    // marginRight: 5,
+
     // elevation: 5,
-    marginLeft: 5,
-    marginRight: 5
     // marginTop: 10
+
+    justifyContent: 'center',
+    // alignItems: 'center',
   }
 };
 

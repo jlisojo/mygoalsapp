@@ -4,10 +4,40 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import * as firebase from 'firebase';
-import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import { StatusBar } from 'expo-status-bar';
 import { Header, Button, Spinner, Card, CardSection } from './src/components/common';
-import LoginForm from './src/components/LoginForm';
+// import LoginForm from './src/components/LoginForm';
+import LoginScreen from './src/screens/LoginScreen';
+import RegisterScreen from './src/screens/RegisterScreen';
 import reducers from './src/reducers';
+
+// const BottomTabNavigatorConfig = {
+//   tabBarOptions: {
+//     activeTintColor: '#e91e63',
+//     labelStyle: {
+//       fontSize: 12,
+//     },
+//     style: {
+//       backgroundColor: 'blue',
+//     },
+//   },
+//   defaultNavigationOptions: {
+//     tabBarVisible: true,
+//   }
+// };
+
+// const AuthenticationNavigator = createBottomTabNavigator({
+//   login: { screen: LoginScreen },
+//   register: { screen: RegisterScreen }
+// }, BottomTabNavigatorConfig);
+
+// const AppNavigator = createBottomTabNavigator({
+//   auth: AuthenticationNavigator,
+// }, BottomTabNavigatorConfig);
+
+const Tab = createBottomTabNavigator();
 
 class App extends Component {
 
@@ -30,65 +60,66 @@ class App extends Component {
       firebase.initializeApp(firebaseConfig);
     }
 
-    firebase.auth().onAuthStateChanged((user) => {
-      // console.log(user);
-      if(user) {
-        this.setState({ loggedIn: true, uid: user.uid });
-      } else {
-        this.setState({ loggedIn: false, uid: null });
-      }
-    });
+    // firebase.auth().onAuthStateChanged((user) => {
+    //   // console.log(user);
+    //   if(user) {
+    //     this.setState({ loggedIn: true, uid: user.uid });
+    //   } else {
+    //     this.setState({ loggedIn: false, uid: null });
+    //   }
+    // });
   }
 
-  createData() {
-    const { currentUser } = firebase.auth();
-    var dreamId = 200;
-    firebase.database().ref(`/users/${currentUser.uid}/dreams`)
-      .push({title: "Dream Two", description: "Lets finish this!"});
-  }
+  // createData() {
+  //   const { currentUser } = firebase.auth();
+  //   var dreamId = 200;
+  //   firebase.database().ref(`/users/${currentUser.uid}/dreams`)
+  //     .push({title: "Dream Two", description: "Lets finish this!"});
+  // }
+  //
+  // readData(user) {
+  // }
+  //
+  // updateData(dream) {
+  // }
+  //
+  // deleteData(dream) {
+  // }
 
-  readData(user) {
-  }
-
-  updateData(dream) {
-  }
-
-  deleteData(dream) {
-  }
-
-  renderContent() {
-    switch(this.state.loggedIn) {
-      case true:
-        return (
-          <Card>
-            <CardSection>
-              <Button onPress={this.createData.bind(this)}>
-                Create Data
-              </Button>
-            </CardSection>
-            <CardSection>
-              <Button onPress={() => firebase.auth().signOut()}>
-                Log Out
-              </Button>
-            </CardSection>
-          </Card>
-        );
-      case false:
-        return <LoginForm />;
-      default:
-        return <Spinner size="large" />
-    }
-  }
+  // renderContent() {
+  //   switch(this.state.loggedIn) {
+  //     case true:
+  //       return (
+  //         <Card>
+  //           <CardSection>
+  //             <Button onPress={this.createData.bind(this)}>
+  //               Create Data
+  //             </Button>
+  //           </CardSection>
+  //           <CardSection>
+  //             <Button onPress={() => firebase.auth().signOut()}>
+  //               Log Out
+  //             </Button>
+  //           </CardSection>
+  //         </Card>
+  //       );
+  //     case false:
+  //       return <LoginForm />;
+  //     default:
+  //       return <Spinner size="large" />
+  //   }
+  // }
 
   render() {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
       <Provider store={store}>
-        <View style={styles.container}>
-          <StatusBar style="auto" />
-          <Header headerText="Goals" />
-          {this.renderContent()}
-        </View>
+        <NavigationContainer>
+          <Tab.Navigator>
+            <Tab.Screen name="Login" component={LoginScreen} />
+            <Tab.Screen name="Register" component={RegisterScreen} />
+          </Tab.Navigator>
+        </NavigationContainer>
       </Provider>
     );
   }
