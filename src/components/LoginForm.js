@@ -2,35 +2,22 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import * as firebase from 'firebase';
-import { loginEmailChanged, loginPasswordChanged } from '../actions';
+import {
+  loginEmailChanged,
+  loginPasswordChanged,
+  loginUser
+} from '../actions';
 import { Header, Button, Card, CardSection, Input, Spinner } from './common';
 
 class LoginForm extends Component {
 
   state = {
-    errorMessage: '',
     loading: false
   }
 
   onButtonPress() {
-    const { loginEmail, loginPassword } = this.state;
-    this.setState({ errorMessage: '', loading: true });
-
-    firebase.auth().signInWithEmailAndPassword(loginEmail, loginPassword)
-      .then(this.onLoginSuccess.bind(this))
-      .catch(() => {
-        firebase.auth().createUserWithEmailAndPassword(loginEmail, loginPassword)
-          .then(this.onLoginSuccess.bind(this))
-          .catch(this.onLoginFail.bind(this));
-      });
-  }
-
-  onLoginFail() {
-    this.setState({ errorMessage: 'Authentication Failed', loading: false });
-  }
-
-  onLoginSuccess() {
-    this.setState({ email: '', password: '', errorMessage: '', loading: false });
+    const { loginEmail, loginPassword } = this.props;
+    this.props.loginUser({ loginEmail, loginPassword });
   }
 
   renderButton() {
@@ -53,6 +40,17 @@ class LoginForm extends Component {
     this.props.loginPasswordChanged(text);
   }
 
+  renderErrorMessage() {
+    const { errorMessage } = this.props;
+    if(errorMessage) {
+      return (
+        <View style={styles.wrapErrorMessage}>
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+        </View>
+      );
+    }
+  }
+
   render() {
     return (
       <Card>
@@ -71,7 +69,7 @@ class LoginForm extends Component {
             onChangeText={this.onLoginPasswordChange.bind(this)}
           />
         </CardSection>
-        <Text style={styles.errorTextStyle}>{this.state.errorMessage}</Text>
+        {this.renderErrorMessage()}
         <CardSection>
           {this.renderButton()}
         </CardSection>
@@ -85,7 +83,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  errorTextStyle: {
+  wrapErrorMessage: {
+    backgroundColor: 'white'
+  },
+  errorMessage: {
     fontSize: 20,
     color: 'red',
     alignSelf: 'center',
@@ -94,8 +95,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    loginEmail: state.login.loginEmail
+    loginEmail: state.login.loginEmail,
+    loginPassword: state.login.loginPassword,
+    errorMessage: state.login.errorMessage
   };
 };
 
-export default connect(mapStateToProps, { loginEmailChanged, loginPasswordChanged })(LoginForm);
+export default connect(mapStateToProps, {
+  loginEmailChanged,
+  loginPasswordChanged,
+  loginUser
+})(LoginForm);

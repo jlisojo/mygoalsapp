@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk';
 import * as firebase from 'firebase';
 import { StatusBar } from 'expo-status-bar';
 import { Header, Button, Spinner, Card, CardSection } from './src/components/common';
@@ -15,13 +16,14 @@ class App extends Component {
   componentDidMount() {
     // Firebase configuration
     const firebaseConfig = {
-      apiKey: "AIzaSyDYzd8TGR3NlBswWS-xMLe9UsMa27-IxBc",
-      authDomain: "auth-6f7b9.firebaseapp.com",
-      databaseURL: "https://auth-6f7b9.firebaseio.com",
-      projectId: "auth-6f7b9",
-      storageBucket: "auth-6f7b9.appspot.com",
-      messagingSenderId: "556185120581",
-      appId: "1:556185120581:web:0aed50c3a58ef30ede182c"
+      apiKey: "AIzaSyAPnfso3y6m659HHaI3qUs17p4cPxP9_Xg",
+      authDomain: "mygoalsapp-5bb86.firebaseapp.com",
+      databaseURL: "https://mygoalsapp-5bb86.firebaseio.com",
+      projectId: "mygoalsapp-5bb86",
+      storageBucket: "mygoalsapp-5bb86.appspot.com",
+      messagingSenderId: "79439276994",
+      appId: "1:79439276994:web:2cdd1df5b9f9a8e20c845b",
+      measurementId: "G-EGT5P2WJ9H"
     };
 
     if(!firebase.apps.length) {
@@ -79,8 +81,9 @@ class App extends Component {
   }
 
   render() {
+    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
-      <Provider store={createStore(reducers)}>
+      <Provider store={store}>
         <View style={styles.container}>
           <StatusBar style="auto" />
           <Header headerText="Goals" />
