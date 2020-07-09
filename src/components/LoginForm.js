@@ -11,17 +11,13 @@ import { Header, Button, Card, CardSection, Input, Spinner } from './common';
 
 class LoginForm extends Component {
 
-  state = {
-    loading: false
-  }
-
   onButtonPress() {
     const { loginEmail, loginPassword } = this.props;
     this.props.loginUser({ loginEmail, loginPassword });
   }
 
   renderButton() {
-    if(this.state.loading) {
+    if(this.props.isLoading) {
       return <Spinner size="small" />;
     }
 
@@ -97,7 +93,8 @@ const mapStateToProps = state => {
   return {
     loginEmail: state.login.loginEmail,
     loginPassword: state.login.loginPassword,
-    errorMessage: state.login.errorMessage
+    errorMessage: state.login.errorMessage,
+    isLoading: state.login.isLoading
   };
 };
 
