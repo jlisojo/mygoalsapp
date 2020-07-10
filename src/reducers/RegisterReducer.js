@@ -8,9 +8,9 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  registerEmail: 'register@test.com',
-  registerPassword: 'register',
-  registerConfirmPassword: 'r',
+  registerEmail: '',
+  registerPassword: '',
+  registerConfirmPassword: '',
   user: null,
   errorMessage: '',
   isLoading: false
@@ -30,7 +30,7 @@ export default (state = INITIAL_STATE, action) => {
     case REGISTER_USER_SUCCESS:
       return { ...state, user: action.payload, errorMessage: '', isLoading: false };
     case REGISTER_USER_FAILED:
-      return { ...state, errorMessage: 'Authentication Failed', registerPassword: '', isLoading: false };
+      return { ...state, errorMessage: 'Registration Failed', registerPassword: '', isLoading: false };
     default:
       return state;
   }

@@ -1,4 +1,5 @@
 import * as firebase from 'firebase';
+import * as RootNavigation from '../navigation/RootNavigation.js';
 import {
   LOGIN_EMAIL_CHANGED,
   LOGIN_PASSWORD_CHANGED,
@@ -27,11 +28,7 @@ export const loginUser = ({ loginEmail, loginPassword }) => {
 
     firebase.auth().signInWithEmailAndPassword(loginEmail, loginPassword)
       .then(user => loginUserSuccess(dispatch, user))
-      .catch(() => {
-        firebase.auth().createUserWithEmailAndPassword(loginEmail, loginPassword)
-          .then(user => loginUserSuccess(dispatch, user))
-          .catch(() => loginUserFailed(dispatch));
-      });
+      .catch(() => loginUserFailed(dispatch));
   }
 };
 
@@ -40,6 +37,7 @@ const loginUserSuccess = (dispatch, user) => {
     type: LOGIN_USER_SUCCESS,
     payload: user
   });
+  RootNavigation.navigate('Main', { user: user });
 };
 
 const loginUserFailed = (dispatch) => {
