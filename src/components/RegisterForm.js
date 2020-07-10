@@ -5,6 +5,7 @@ import * as firebase from 'firebase';
 import {
   registerEmailChanged,
   registerPasswordChanged,
+  registerConfirmPasswordChanged,
   registerUser
 } from '../actions/RegisterActions';
 import { Header, Button, Card, CardSection, Input, Spinner } from './common';
@@ -34,6 +35,10 @@ class RegisterForm extends Component {
 
   onRegisterPasswordChange(text) {
     this.props.registerPasswordChanged(text);
+  }
+
+  onRegisterConfirmPasswordChange(text) {
+    this.props.registerConfirmPasswordChanged(text);
   }
 
   renderErrorMessage() {
@@ -69,13 +74,18 @@ class RegisterForm extends Component {
           <Input
             placeholder="Password"
             secureTextEntry
-            value={this.props.registerPassword}
-            onChangeText={this.onRegisterPasswordChange.bind(this)}
+            value={this.props.registerConfirmPassword}
+            onChangeText={this.onRegisterConfirmPasswordChange.bind(this)}
           />
         </CardSection>
         {this.renderErrorMessage()}
         <CardSection>
           {this.renderButton()}
+        </CardSection>
+        <CardSection>
+          <Button onPress={() => this.props.navigation.navigate('Login')}>
+            Return to Login
+          </Button>
         </CardSection>
       </Card>
     );
@@ -101,6 +111,7 @@ const mapStateToProps = state => {
   return {
     registerEmail: state.register.registerEmail,
     registerPassword: state.register.registerPassword,
+    registerConfirmPassword: state.register.registerConfirmPassword,
     errorMessage: state.register.errorMessage,
     isLoading: state.register.isLoading
   };
@@ -109,5 +120,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   registerEmailChanged,
   registerPasswordChanged,
+  registerConfirmPasswordChanged,
   registerUser
 })(RegisterForm);

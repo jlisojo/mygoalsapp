@@ -2,6 +2,7 @@ import * as firebase from 'firebase';
 import {
   REGISTER_EMAIL_CHANGED,
   REGISTER_PASSWORD_CHANGED,
+  REGISTER_CONFIRM_PASSWORD_CHANGED,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILED,
   REGISTER_USER
@@ -17,6 +18,13 @@ export const registerEmailChanged = (text) => {
 export const registerPasswordChanged = (text) => {
   return {
     type: REGISTER_PASSWORD_CHANGED,
+    payload: text
+  };
+};
+
+export const registerConfirmPasswordChanged = (text) => {
+  return {
+    type: REGISTER_CONFIRM_PASSWORD_CHANGED,
     payload: text
   };
 };

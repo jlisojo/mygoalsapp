@@ -6,7 +6,7 @@ class RegisterScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <RegisterForm />
+        <RegisterForm navigation={this.props.navigation} />
       </View>
     );
   }

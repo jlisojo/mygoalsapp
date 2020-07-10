@@ -31,7 +31,7 @@ function MainTabs() {
 
 function AuthenticationTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{ tabBarVisible: false }}>
       <Tab.Screen name="Login" component={LoginScreen} />
       <Tab.Screen name="Register" component={RegisterScreen} />
       <Tab.Screen name="Main" component={MainTabs} />

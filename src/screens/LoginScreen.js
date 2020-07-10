@@ -6,7 +6,7 @@ class LoginScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <LoginForm />
+        <LoginForm navigation={this.props.navigation} />
       </View>
     );
   }
