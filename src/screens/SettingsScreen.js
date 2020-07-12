@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import * as firebase from 'firebase';
+import * as RootNavigation from '../navigation/RootNavigation.js';
+import { Button, Card, CardSection } from '../components/common';
 
 class SettingsScreen extends Component {
+
+  onLogoutButtonPress() {
+    firebase.auth().signOut();
+    RootNavigation.navigate('Login', { user: null });
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>Settings Screen</Text>
+        <Card>
+          <CardSection>
+            <Button onPress={this.onLogoutButtonPress.bind(this)}>Log out</Button>
+          </CardSection>
+        </Card>
       </View>
     );
   }
