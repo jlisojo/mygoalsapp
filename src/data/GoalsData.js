@@ -34,4 +34,19 @@ export const GOALS_DATA = [
     title: 'Seventh Item',
     description: 'A very long goal description will go here for all my friends to read. They will be happy for me when they learn about my goals.',
   },
+  {
+    id: '107',
+    title: 'Eighth Item',
+    description: 'A very long goal description will go here for all my friends to read. They will be happy for me when they learn about my goals.',
+  },
+  {
+    id: '108',
+    title: 'Ninth Item',
+    description: 'A very long goal description will go here for all my friends to read. They will be happy for me when they learn about my goals.',
+  },
+  {
+    id: '109',
+    title: 'Tenth Item',
+    description: 'A very long goal description will go here for all my friends to read. They will be happy for me when they learn about my goals.',
+  },
 ];
