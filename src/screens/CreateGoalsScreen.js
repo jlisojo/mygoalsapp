@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import CreateGoalForm from '../components/CreateGoalForm';
 
 class CreateGoalsScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Create Goals Screen</Text>
+        <CreateGoalForm />
       </View>
     );
   }
