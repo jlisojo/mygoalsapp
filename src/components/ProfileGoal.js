@@ -8,8 +8,8 @@ class ProfileGoal extends Component {
   render() {
     return (
       <View style={styles.goalContainer}>
-        <Text style={styles.title}>Goal Title</Text>
-        <Text style={styles.description}>A very long goal description will go here for all my friends to read. They will be happy for me when they learn about my goals.</Text>
+        <Text style={styles.title}>{this.props.title}</Text>
+        <Text style={styles.description}>{this.props.description}</Text>
       </View>
     );
   }

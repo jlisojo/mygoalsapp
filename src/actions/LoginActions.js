@@ -37,7 +37,7 @@ const loginUserSuccess = (dispatch, user) => {
     type: LOGIN_USER_SUCCESS,
     payload: user
   });
-  RootNavigation.navigate('Main');
+  RootNavigation.navigate('Main',{});
 };
 
 const loginUserFailed = (dispatch) => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import ProfileGoal from '../components/ProfileGoal';
+import ProfileGoalsList from '../components/ProfileGoalsList';
 
 class ProfileScreen extends Component {
   render() {
@@ -11,9 +11,7 @@ class ProfileScreen extends Component {
           source={require('../../assets/josh.jpg')}
         />
         <Text style={styles.userName}>Joshua Lisojo</Text>
-        <ProfileGoal />
-        <ProfileGoal />
-        <ProfileGoal />
+        <ProfileGoalsList />
       </View>
     );
   }
@@ -22,13 +20,11 @@ class ProfileScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
   profileImage: {
-    width: 200,
-    height: 200,
-    borderRadius: 200 / 2,
+    width: 100,
+    height: 100,
+    borderRadius: 100 / 2,
     alignSelf: 'center',
     marginTop: 15,
   },
