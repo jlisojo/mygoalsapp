@@ -17,7 +17,6 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-  console.log(action);
   switch (action.type) {
     case REGISTER_EMAIL_CHANGED:
       return { ...state, registerEmail: action.payload };

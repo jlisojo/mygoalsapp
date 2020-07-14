@@ -29,7 +29,7 @@ export const loginUser = ({ loginEmail, loginPassword }) => {
     firebase.auth().signInWithEmailAndPassword(loginEmail, loginPassword)
       .then(user => loginUserSuccess(dispatch, user))
       .catch(() => loginUserFailed(dispatch));
-  }
+  };
 };
 
 const loginUserSuccess = (dispatch, user) => {
