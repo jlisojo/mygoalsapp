@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import * as firebase from 'firebase';
 import {
@@ -7,7 +7,7 @@ import {
   goalDescriptionChanged,
   createGoal
 } from '../actions/GoalCreateActions';
-import { Header, Button, Card, CardSection, Input, Spinner } from './common';
+import { Header, Button, Card, CardSection, Input, Spinner, DismissKeyboard } from './common';
 
 class CreateGoalForm extends Component {
 
@@ -38,25 +38,33 @@ class CreateGoalForm extends Component {
 
   render() {
     return (
-      <Card>
-        <CardSection>
-          <Input
-            placeholder="Goal Title"
-            value={this.props.goalTitle}
-            onChangeText={this.onGoalTitleChanged.bind(this)}
-          />
-        </CardSection>
-        <CardSection>
-          <Input
-            placeholder="Goal Description"
-            value={this.props.goalDescription}
-            onChangeText={this.onGoalDescriptionChanged.bind(this)}
-          />
-        </CardSection>
-        <CardSection>
-          {this.renderButton()}
-        </CardSection>
-      </Card>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <Card>
+          <CardSection>
+            <View style={styles.imageBorder}></View>
+          </CardSection>
+          <CardSection>
+            <Input
+              placeholder="Goal Title"
+              value={this.props.goalTitle}
+              onChangeText={this.onGoalTitleChanged.bind(this)}
+            />
+          </CardSection>
+          <CardSection>
+            <Input
+              placeholder="Goal Description"
+              value={this.props.goalDescription}
+              onChangeText={this.onGoalDescriptionChanged.bind(this)}
+            />
+          </CardSection>
+          <CardSection>
+            {this.renderButton()}
+          </CardSection>
+        </Card>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -72,6 +80,14 @@ const styles = StyleSheet.create({
   errorMessage: {
     fontSize: 20,
     color: 'red',
+    alignSelf: 'center',
+  },
+  imageBorder: {
+    width: 250,
+    height: 250,
+    borderWidth: 1,
+    borderColor: "#bbb",
+    borderRadius: 6,
     alignSelf: 'center',
   }
 });

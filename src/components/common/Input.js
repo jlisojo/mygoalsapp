@@ -21,7 +21,7 @@ const Input = ({ value, onChangeText, placeholder, secureTextEntry }) => {
 const styles = {
   inputStyle: {
     // width: '100%',
-    // height: '100%',
+    height: 40,
     backgroundColor: '#fff',
     paddingRight: 5,
     paddingLeft: 5,

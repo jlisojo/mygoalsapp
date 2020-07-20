@@ -14,6 +14,7 @@ const styles = {
     // flex: 1,
     // width: '100%',
     padding: 4,
+    minHeight: 50,
     // backgroundColor: 'rgba(255,255,255,0.0)',
     // justifyContent: 'flex-start',
     // flexDirection: 'row',
