@@ -20,21 +20,22 @@ const Input = ({ value, onChangeText, placeholder, secureTextEntry }) => {
 
 const styles = {
   inputStyle: {
-    // width: '100%',
+    width: '80%',
     height: 40,
     backgroundColor: '#fff',
     paddingRight: 5,
     paddingLeft: 5,
     fontSize: 13,
     lineHeight: 15,
+    alignSelf: 'center',
     // flex: 2,
-    marginLeft: 30,
-    marginRight: 30,
+    // marginLeft: 30,
+    // marginRight: 30,
     borderRadius: 5
   },
   containerStyle: {
     // height: 38,
-    // flex: 1,
+    flex: 1,
     // flexDirection: 'row',
     // alignItems: 'center'
   }

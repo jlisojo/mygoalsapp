@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, Platform } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 import { connect } from 'react-redux';
 import * as firebase from 'firebase';
 import {
@@ -10,6 +13,41 @@ import {
 import { Header, Button, Card, CardSection, Input, Spinner, DismissKeyboard } from './common';
 
 class CreateGoalForm extends Component {
+
+  state = {
+    image: null,
+  };
+
+  componentDidMount() {
+    this.getPermissionAsync();
+  }
+
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    }
+  };
+
+  _pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        this.setState({ image: result.uri });
+      }
+
+      console.log(result);
+    } catch (E) {
+      console.log(E);
+    }
+  };
 
   onButtonPress() {
     const { goalTitle, goalDescription } = this.props;
@@ -38,10 +76,6 @@ class CreateGoalForm extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
         <Card>
           <CardSection>
             <View style={styles.imageBorder}></View>
@@ -61,10 +95,12 @@ class CreateGoalForm extends Component {
             />
           </CardSection>
           <CardSection>
+             <Button onPress={this._pickImage}>Pick Image</Button>
+          </CardSection>
+          <CardSection>
             {this.renderButton()}
           </CardSection>
         </Card>
-      </KeyboardAvoidingView>
     );
   }
 }
@@ -83,11 +119,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   imageBorder: {
-    width: 250,
-    height: 250,
+    width: 150,
+    height: 150,
     borderWidth: 1,
     borderColor: "#bbb",
     borderRadius: 6,
+    borderStyle: 'dashed',
     alignSelf: 'center',
   }
 });
