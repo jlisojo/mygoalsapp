@@ -13,7 +13,7 @@ class ProfileGoalsList extends Component {
   }
 
   renderItem({ item }) {
-    console.log(this.props.goalsData);
+    // console.log(this.props.goalsData);
     return <ProfileGoal title={this.props.goalsData[item].goalTitle} description={this.props.goalsData[item].goalDescription} />;
   }
 
