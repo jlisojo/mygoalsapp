@@ -45,17 +45,43 @@ export const createGoal = ({ goalTitle, goalDescription, goalImage }) => {
     const { currentUser } = firebase.auth();
 
     const goalId = firebase.database().ref(`users/${currentUser.uid}/goals`)
-    .push({ goalTitle, goalDescription });
-    console.log("goalId");
-    console.log(goalId.split("/").pop());
+    .push({ goalTitle, goalDescription })
 
-    // .then(goal => {
-    //   console.log("goal");
-    //   console.log(goal);
-    //   // const response = fetch(goalImage.uri);
-    //   // const blob = response.blob();
-    //   // var ref = firebase.storage().ref(`users/${currentUser.uid}/goal_images`).child("my-image");
-    // });
+    // console.log("goalId");
+    // console.log(goalId.split("/").pop());
+
+    .then((goal) => {
+
+      // const goalUrl = JSON.stringify(goal);
+      // var index = goalUrl.lastIndexOf("/") + 1;
+      // var goalId = goalUrl.substr(index);
+      //
+      // console.log("goal");
+      // console.log(goal);
+      //
+      // console.log("goalId");
+      // console.log(goalId);
+      //
+      // console.log("goalImage");
+      // console.log(goalImage);
+
+      // Get a reference to the storage service, which is used to create references in your storage bucket
+      // var storage = firebase.storage();
+
+      // // Create a root reference
+      // var storageRef = firebase.storage().ref();
+      //
+      // // Create a reference to 'mountains.jpg'
+      // var mountainsRef = storageRef.child('mountains.jpg');
+      //
+      // // Create a reference to 'images/mountains.jpg'
+      // var mountainImagesRef = storageRef.child('images/mountains.jpg');
+      //
+      // // While the file names are the same, the references point to different files
+      // mountainsRef.name === mountainImagesRef.name            // true
+      // mountainsRef.fullPath === mountainImagesRef.fullPath    // false
+
+    });
   };
 };
 
