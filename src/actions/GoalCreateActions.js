@@ -1,4 +1,5 @@
 import * as firebase from 'firebase';
+import uuid from 'uuid';
 import * as RootNavigation from '../navigation/RootNavigation.js';
 import {
   GOAL_TITLE_CHANGED,
@@ -31,57 +32,62 @@ export const goalImageChanged = (image) => {
   };
 };
 
-// uploadImage = async(uri) => {
-//   const response = await fetch(uri);
-//   const blob = await response.blob();
-//   var ref = firebase.storage().ref().child("my-image");
-//   return ref.put(blob);
-// }
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+async function uploadImageAsync(uri) {
+  // Why are we using XMLHttpRequest? See:
+  // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function(e) {
+      console.log(e);
+      reject(new TypeError('Network request failed'));
+    };
+    xhr.responseType = 'blob';
+    xhr.open('GET', uri, true);
+    xhr.send(null);
+  });
+
+  const { currentUser } = firebase.auth();
+  const fileExtension = uri.split('.').pop();
+  const uuid = uuidv4();//uuid.v4();
+  const fileName = `${uuid}.${fileExtension}`;
+  const ref = firebase
+    .storage()
+    .ref(`users/${currentUser.uid}/images`)
+    .child(fileName);
+  const snapshot = await ref.put(blob);
+
+  // We're done with the blob, close and release it
+  blob.close();
+  const downloadURL = await snapshot.ref.getDownloadURL();
+
+  return downloadURL;
+}
+
 
 export const createGoal = ({ goalTitle, goalDescription, goalImage }) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({ type: GOAL_CREATE });
     // create/save a goal to firebase db
     const { currentUser } = firebase.auth();
-
-    const goalId = firebase.database().ref(`users/${currentUser.uid}/goals`)
-    .push({ goalTitle, goalDescription })
-
-    // console.log("goalId");
-    // console.log(goalId.split("/").pop());
-
-    .then((goal) => {
-
-      // const goalUrl = JSON.stringify(goal);
-      // var index = goalUrl.lastIndexOf("/") + 1;
-      // var goalId = goalUrl.substr(index);
-      //
-      // console.log("goal");
-      // console.log(goal);
-      //
-      // console.log("goalId");
-      // console.log(goalId);
-      //
-      // console.log("goalImage");
-      // console.log(goalImage);
-
-      // Get a reference to the storage service, which is used to create references in your storage bucket
-      // var storage = firebase.storage();
-
-      // // Create a root reference
-      // var storageRef = firebase.storage().ref();
-      //
-      // // Create a reference to 'mountains.jpg'
-      // var mountainsRef = storageRef.child('mountains.jpg');
-      //
-      // // Create a reference to 'images/mountains.jpg'
-      // var mountainImagesRef = storageRef.child('images/mountains.jpg');
-      //
-      // // While the file names are the same, the references point to different files
-      // mountainsRef.name === mountainImagesRef.name            // true
-      // mountainsRef.fullPath === mountainImagesRef.fullPath    // false
-
-    });
+    if(goalImage) {
+      const goalImageURL = await uploadImageAsync(goalImage.uri);
+      //console.log("goalImageURL: " + goalImageURL);
+      firebase.database().ref(`users/${currentUser.uid}/goals`)
+      .push({ goalTitle, goalDescription, goalImageURL });
+    } else {
+      //firebase.database().ref(`users/${currentUser.uid}/goals`)
+      //.push({ goalTitle, goalDescription });
+    }
   };
 };
 

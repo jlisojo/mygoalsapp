@@ -22,12 +22,20 @@ class ProfileGoalsList extends Component {
     return item;
   }
 
+  getData() {
+    if(this.props.goalsData) {
+      return Object.keys(this.props.goalsData);
+    }
+
+    return [];
+  }
+
   render() {
 
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
-          data={Object.keys(this.props.goalsData)}
+          data={this.getData.bind(this)}
           renderItem={this.renderItem.bind(this)}
           keyExtractor={this.extractKey.bind(this)}
         />

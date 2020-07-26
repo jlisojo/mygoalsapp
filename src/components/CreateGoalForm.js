@@ -68,8 +68,8 @@ class CreateGoalForm extends Component {
   }
 
   onButtonPress() {
-    const { goalTitle, goalDescription } = this.props;
-    this.props.createGoal({ goalTitle, goalDescription });
+    const { goalTitle, goalDescription, goalImage } = this.props;
+    this.props.createGoal({ goalTitle, goalDescription, goalImage });
   }
 
   renderButton() {
