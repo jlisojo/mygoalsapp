@@ -103,11 +103,13 @@ export const fetchGoals = () => {
 };
 
 const goalCreateSuccess = (dispatch, goals) => {
-  dispatch({
-    type: GOAL_CREATE_SUCCESS,
-    payload: goals
-  });
-  RootNavigation.navigate('Profile',{});
+  return (dispatch) => {
+    dispatch({
+      type: GOAL_CREATE_SUCCESS,
+      payload: goals
+    });
+    RootNavigation.navigate('Profile',{});
+  };
 };
 
 const goalCreateFailed = (dispatch) => {

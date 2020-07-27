@@ -14,7 +14,7 @@ class ProfileGoalsList extends Component {
 
   renderItem({ item }) {
     // console.log(this.props.goalsData);
-    return <ProfileGoal image={this.props.goalsData[item].goalImageURL} title={this.props.goalsData[item].goalTitle} description={this.props.goalsData[item].goalDescription} />;
+    return <ProfileGoal goal={this.props.goalsData[item]} />;
   }
 
   extractKey(item, index) {

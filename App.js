@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
@@ -9,21 +9,44 @@ import { navigationRef } from './src/navigation/RootNavigation';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import { StatusBar } from 'expo-status-bar';
-import { Header, Button, Spinner, Card, CardSection } from './src/components/common';
+import { Header, Spinner, Card, CardSection } from './src/components/common';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import CreateGoalsScreen from './src/screens/CreateGoalsScreen';
+import GoalDetailsScreen from './src/screens/GoalDetailsScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import reducers from './src/reducers';
 
 const Stack = createStackNavigator();
+const StackHome = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+function HomeStack() {
+  return (
+    <StackHome.Navigator initialRouteName="Profile">
+      <StackHome.Screen
+        name="Profile"
+        options={{
+          headerRight: () => (
+            <Button
+              onPress={() => alert('This is a button!')}
+              title="Info"
+              color="#fff"
+            />
+          ),
+        }}
+        component={ProfileScreen}
+      />
+      <StackHome.Screen name="GoalDetails" component={GoalDetailsScreen} />
+    </StackHome.Navigator>
+  );
+}
 
 function MainTabs() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Create Goals" component={CreateGoalsScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
@@ -73,22 +96,6 @@ class App extends Component {
     // });
   }
 
-  // createData() {
-  //   const { currentUser } = firebase.auth();
-  //   var dreamId = 200;
-  //   firebase.database().ref(`/users/${currentUser.uid}/dreams`)
-  //     .push({title: "Dream Two", description: "Lets finish this!"});
-  // }
-  //
-  // readData(user) {
-  // }
-  //
-  // updateData(dream) {
-  // }
-  //
-  // deleteData(dream) {
-  // }
-
 
   render() {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
@@ -96,7 +103,7 @@ class App extends Component {
       <Provider store={store}>
         <NavigationContainer ref={navigationRef}>
           <Stack.Navigator>
-            <Stack.Screen name="MyGoals" component={AuthenticationTabs} />
+            <Stack.Screen  name="MyGoals" component={AuthenticationTabs} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
