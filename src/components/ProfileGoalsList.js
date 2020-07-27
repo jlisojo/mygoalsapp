@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ProfileGoal from './ProfileGoal';
 import { Header, Button, Card, CardSection, Input, Spinner } from './common';
 import { fetchGoals } from '../actions/GoalCreateActions';
-import { GOALS_DATA } from '../data/GoalsData';
+// import { GOALS_DATA } from '../data/GoalsData';
 
 class ProfileGoalsList extends Component {
 
@@ -14,7 +14,7 @@ class ProfileGoalsList extends Component {
 
   renderItem({ item }) {
     // console.log(this.props.goalsData);
-    return <ProfileGoal title={this.props.goalsData[item].goalTitle} description={this.props.goalsData[item].goalDescription} />;
+    return <ProfileGoal image={this.props.goalsData[item].goalImageURL} title={this.props.goalsData[item].goalTitle} description={this.props.goalsData[item].goalDescription} />;
   }
 
   extractKey(item, index) {
@@ -22,12 +22,21 @@ class ProfileGoalsList extends Component {
     return item;
   }
 
-  getData() {
-    if(this.props.goalsData) {
-      return Object.keys(this.props.goalsData);
+  isEmpty(obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return false;
     }
 
-    return [];
+    return true;
+  }
+
+  getData() {
+    if(this.isEmpty(this.props.goalsData)) {
+      return [];
+    }
+
+    return Object.keys(this.props.goalsData);
   }
 
   render() {
@@ -35,7 +44,7 @@ class ProfileGoalsList extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
-          data={this.getData.bind(this)}
+          data={this.getData()}
           renderItem={this.renderItem.bind(this)}
           keyExtractor={this.extractKey.bind(this)}
         />
