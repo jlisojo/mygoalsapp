@@ -52,9 +52,6 @@ class CreateGoalForm extends Component {
   renderImage() {
     if(this.props.goalImage) {
       const { goalImage } = this.props;
-      // console.log("goalImage");
-      // console.log(goalImage);
-      // return <View style={styles.imageBorder}></View>;
       return <Image
                 style={styles.goalImageStyle}
                 resizeMode="cover"

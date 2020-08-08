@@ -6,7 +6,7 @@ import * as RootNavigation from '../navigation/RootNavigation.js';
 class ProfileGoal extends Component {
 
   onRowPress() {
-    console.log("onRowPress");
+    // console.log("onRowPress");
     RootNavigation.navigate('GoalDetails', { goal: this.props.goal });
   }
 
