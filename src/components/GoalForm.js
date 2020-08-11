@@ -1,19 +1,42 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, View, Image, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { connect } from 'react-redux';
-import * as firebase from 'firebase';
-import {
-  goalTitleChanged,
-  goalDescriptionChanged,
-  goalImageChanged,
-  createGoal
-} from '../actions/GoalCreateActions';
-import { Header, Button, Card, CardSection, Input, Spinner, DismissKeyboard } from './common';
+import { goalUpdate } from '../actions/GoalCreateActions';
+import { Button, CardSection, Input } from './common';
 
 class GoalForm extends Component {
+
+  componentDidMount() {
+    this.getPermissionAsync();
+  }
+
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    }
+  };
+
+  _pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        this.props.goalUpdate({ prop: 'goalImage', value: result });
+      }
+    } catch (E) {
+      console.log(E);
+    }
+  };
 
   renderImage() {
     if(this.props.goalImage) {
@@ -30,31 +53,6 @@ class GoalForm extends Component {
     );
   }
 
-  onButtonPress() {
-    const { goalTitle, goalDescription, goalImage } = this.props;
-    this.props.createGoal({ goalTitle, goalDescription, goalImage });
-  }
-
-  renderButton() {
-    if(this.props.isLoading) {
-      return <Spinner size="small" />;
-    }
-
-    return (
-      <Button onPress={this.onButtonPress.bind(this)}>
-        Create Goal
-      </Button>
-    );
-  }
-
-  onGoalTitleChanged(text) {
-    this.props.goalTitleChanged(text);
-  }
-
-  onGoalDescriptionChanged(text) {
-    this.props.goalDescriptionChanged(text);
-  }
-
   render() {
     return (
         <View>
@@ -65,14 +63,14 @@ class GoalForm extends Component {
             <Input
               placeholder="Goal Title"
               value={this.props.goalTitle}
-              onChangeText={this.onGoalTitleChanged.bind(this)}
+              onChangeText={value => this.props.goalUpdate({ prop: 'goalTitle', value })}
             />
           </CardSection>
           <CardSection>
             <Input
               placeholder="Goal Description"
               value={this.props.goalDescription}
-              onChangeText={this.onGoalDescriptionChanged.bind(this)}
+              onChangeText={value => this.props.goalUpdate({ prop: 'goalDescription', value })}
             />
           </CardSection>
           <CardSection>
@@ -123,9 +121,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {
-  goalTitleChanged,
-  goalDescriptionChanged,
-  goalImageChanged,
-  createGoal
-})(GoalForm);
+export default connect(mapStateToProps, { goalUpdate })(GoalForm);

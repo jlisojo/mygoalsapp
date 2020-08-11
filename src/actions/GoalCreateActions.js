@@ -8,8 +8,16 @@ import {
   GOAL_CREATE_SUCCESS,
   GOAL_CREATE_FAILED,
   GOAL_CREATE,
+  GOAL_UPDATE,
   GOAL_FETCH_SUCCESS
 } from './types';
+
+export const goalUpdate = ({ prop, value }) => {
+  return {
+    type: GOAL_UPDATE,
+    payload: { prop, value }
+  };
+};
 
 export const goalTitleChanged = (text) => {
   return {
