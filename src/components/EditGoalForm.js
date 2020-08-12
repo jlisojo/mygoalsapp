@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, KeyboardAvoidingView, Platform } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import Constants from 'expo-constants';
-import * as Permissions from 'expo-permissions';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import * as firebase from 'firebase';
-import { createGoal } from '../actions/GoalCreateActions';
+import { editGoal, goalUpdate } from '../actions/GoalCreateActions';
 import { Button, Card, CardSection, Spinner, DismissKeyboard } from './common';
 import GoalForm from './GoalForm';
 
-class CreateGoalForm extends Component {
+class EditGoalForm extends Component {
 
+  constructor(props) {
+    super(props);
+    console.log("EditGoalForm");
+    _.each(this.props.route.params.goal, (value, prop) => {
+      console.log(prop + " => " + value);
+      this.props.goalUpdate({ prop, value });
+    });
+  }
 
   onButtonPress() {
-    const { goalTitle, goalDescription, goalImage } = this.props;
-    this.props.createGoal({ goalTitle, goalDescription, goalImage });
+    const { goalTitle, goalDescription, goalImage, key } = this.props;
+    console.log(goalTitle, goalDescription, goalImage, key);
+    // this.props.editGoal({ goalTitle, goalDescription, goalImage, key });
   }
 
   renderButton() {
@@ -24,7 +31,7 @@ class CreateGoalForm extends Component {
 
     return (
       <Button onPress={this.onButtonPress.bind(this)}>
-        Create Goal
+        Save Goal
       </Button>
     );
   }
@@ -47,6 +54,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
+    key: state.goal.key,
     goalTitle: state.goal.goalTitle,
     goalDescription: state.goal.goalDescription,
     goalImage: state.goal.goalImage,
@@ -55,4 +63,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { createGoal })(CreateGoalForm);
+export default connect(mapStateToProps, { editGoal, goalUpdate })(EditGoalForm);

@@ -6,8 +6,7 @@ import * as RootNavigation from '../navigation/RootNavigation.js';
 class ProfileGoal extends Component {
 
   onRowPress() {
-    // console.log("onRowPress");
-    RootNavigation.navigate('GoalDetails', { goal: this.props.goal });
+    this.props.navigation.navigate('GoalDetails', { goal: this.props.goal });
   }
 
   render() {
@@ -18,7 +17,7 @@ class ProfileGoal extends Component {
         <View style={styles.goalContainer}>
           <Image
             style={styles.image}
-            source={{ uri: goal.goalImageURL }}
+            source={{ uri: goal.goalImage }}
           />
           <View style={styles.textContainer}>
             <Text style={styles.title}>{goal.goalTitle}</Text>

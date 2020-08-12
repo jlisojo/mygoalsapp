@@ -4,6 +4,8 @@ import ProfileGoalsList from '../components/ProfileGoalsList';
 
 class ProfileScreen extends Component {
   render() {
+    console.log("ProfileScreen");
+    console.log(this.props);
     return (
       <View style={styles.container}>
         <Image
@@ -11,7 +13,7 @@ class ProfileScreen extends Component {
           source={require('../../assets/josh.jpg')}
         />
         <Text style={styles.userName}>Joshua Lisojo</Text>
-        <ProfileGoalsList />
+        <ProfileGoalsList navigation={this.props.navigation} />
       </View>
     );
   }

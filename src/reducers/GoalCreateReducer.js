@@ -9,6 +9,7 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
+  key: '',
   goalTitle: 'Test Title',
   goalDescription: 'Test Description',
   goalImage: null,

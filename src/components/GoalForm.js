@@ -31,7 +31,7 @@ class GoalForm extends Component {
         quality: 1,
       });
       if (!result.cancelled) {
-        this.props.goalUpdate({ prop: 'goalImage', value: result });
+        this.props.goalUpdate({ prop: 'goalImage', value: result.uri });
       }
     } catch (E) {
       console.log(E);
@@ -44,7 +44,7 @@ class GoalForm extends Component {
       return <Image
                 style={styles.goalImageStyle}
                 resizeMode="cover"
-                source={{ uri: goalImage.uri }}
+                source={{ uri: goalImage }}
               />;
     }
 
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
+    key: state.goal.key,
     goalTitle: state.goal.goalTitle,
     goalDescription: state.goal.goalDescription,
     goalImage: state.goal.goalImage,

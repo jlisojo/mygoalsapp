@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
-import CreateGoalForm from '../components/CreateGoalForm';
+import EditGoalForm from '../components/EditGoalForm';
 
 class GoalDetailsScreen extends Component {
   render() {
+    console.log("GoalDetailsScreen");
+    console.log(this.props);
     return (
 
         <KeyboardAvoidingView
           behavior={Platform.OS == "ios" ? "padding" : "height"}
           style={styles.container}
         >
-        <CreateGoalForm />
+        <EditGoalForm {...this.props} />
       </KeyboardAvoidingView>
     );
   }
