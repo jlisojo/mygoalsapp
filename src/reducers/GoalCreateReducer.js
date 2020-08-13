@@ -15,6 +15,8 @@ const INITIAL_STATE = {
   goalDescription: 'Test Description',
   fileName: '',
   goalImage: null,
+  prevGoalImage: null,
+  hasNewGoalImage: false,
   user: null,
   errorMessage: '',
   isLoading: false

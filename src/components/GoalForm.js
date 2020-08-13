@@ -31,7 +31,9 @@ class GoalForm extends Component {
         quality: 1,
       });
       if (!result.cancelled) {
+        this.props.goalUpdate({ prop: 'prevGoalImage', value: this.props.goalImage });
         this.props.goalUpdate({ prop: 'goalImage', value: result.uri });
+        this.props.goalUpdate({ prop: 'hasNewGoalImage', value: true });
       }
     } catch (E) {
       console.log(E);
@@ -118,6 +120,8 @@ const mapStateToProps = state => {
     goalDescription: state.goal.goalDescription,
     fileName: state.goal.fileName,
     goalImage: state.goal.goalImage,
+    prevGoalImage: state.goal.prevGoalImage,
+    hasNewGoalImage: state.goal.hasNewGoalImage,
     errorMessage: state.goal.errorMessage,
     isLoading: state.goal.isLoading
   };

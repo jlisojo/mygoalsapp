@@ -19,10 +19,10 @@ class EditGoalForm extends Component {
   }
 
   onButtonPress() {
-    const { goalTitle, goalDescription, fileName, goalImage, goalID } = this.props;
-    // console.log(this.props);
+    const { goalTitle, goalDescription, fileName, hasNewGoalImage, goalImage, goalID } = this.props;
+    console.log(this.props);
     // console.log(goalTitle, goalDescription, fileName, goalImage, goalID);
-    this.props.editGoal({ goalTitle, goalDescription, fileName, goalImage, goalID });
+    this.props.editGoal({ goalTitle, goalDescription, fileName, hasNewGoalImage, goalImage, goalID });
   }
 
   renderButton() {
@@ -32,7 +32,7 @@ class EditGoalForm extends Component {
 
     return (
       <Button onPress={this.onButtonPress.bind(this)}>
-        Save Goal
+        Update Goal
       </Button>
     );
   }
@@ -60,6 +60,8 @@ const mapStateToProps = state => {
     goalDescription: state.goal.goalDescription,
     fileName: state.goal.fileName,
     goalImage: state.goal.goalImage,
+    prevGoalImage: state.goal.prevGoalImage,
+    hasNewGoalImage: state.goal.hasNewGoalImage,
     errorMessage: state.goal.errorMessage,
     isLoading: state.goal.isLoading
   };

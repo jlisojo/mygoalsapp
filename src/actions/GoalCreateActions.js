@@ -91,14 +91,20 @@ export const createGoal = ({ goalTitle, goalDescription, goalImage }) => {
     if(goalImage) {
       const { fileName, goalImageURL } = await uploadImageAsync(goalImage);
       //console.log("goalImageURL: " + goalImageURL);
+      const newGoalID = firebase.database().ref().child(`users/${currentUser.uid}/goals`)
+      .push().key;
+      firebase.database().ref(`users/${currentUser.uid}/goals/${newGoalID}`)
+      .set({ goalID: newGoalID, goalTitle, goalDescription, fileName, goalImage: goalImageURL });
 
-      firebase.database().ref(`users/${currentUser.uid}/goals`)
-      .push({ goalTitle, goalDescription, goalImage: goalImageURL })
-      .then((snap) => {
-        const goalID = snap.key;
-        firebase.database().ref(`users/${currentUser.uid}/goals/${goalID}`)
-        .set({ goalID, goalTitle, goalDescription, fileName, goalImage: goalImageURL });
-      });
+
+      // firebase.database().ref(`users/${currentUser.uid}/goals`)
+      // .push({ goalTitle, goalDescription, goalImage: goalImageURL })
+      // .then((snap) => {
+      //   const goalID = snap.key;
+      //   firebase.database().ref(`users/${currentUser.uid}/goals/${goalID}`)
+      //   .set({ goalID, goalTitle, goalDescription, fileName, goalImage: goalImageURL });
+      // });
+
     } else {
       //firebase.database().ref(`users/${currentUser.uid}/goals`)
       //.push({ goalTitle, goalDescription });
@@ -106,20 +112,31 @@ export const createGoal = ({ goalTitle, goalDescription, goalImage }) => {
   };
 };
 
-export const editGoal = ({ goalTitle, goalDescription, fileName, goalImage, key }) => {
+export const editGoal = ({ goalTitle, goalDescription, fileName, hasNewGoalImage, goalImage, goalID }) => {
   return async (dispatch) => {
     dispatch({ type: GOAL_SAVE });
     // create/save a goal to firebase db
     const { currentUser } = firebase.auth();
-    if(goalImage) {
-      const goalImageURL = await uploadImageAsync(goalImage);
-      //console.log("goalImageURL: " + goalImageURL);
-      firebase.database().ref(`users/${currentUser.uid}/goals/${key}`)
-      .set({ key, goalTitle, goalDescription, fileName, goalImage: goalImageURL });
-    } else {
-      //firebase.database().ref(`users/${currentUser.uid}/goals`)
-      //.push({ goalTitle, goalDescription });
+    var uploadInfo = null;
+    if(hasNewGoalImage) {
+      // upload new image
+      uploadInfo = await uploadImageAsync(goalImage);
+
+      // delete old image
+      const oldImageRef = firebase.storage().ref(`users/${currentUser.uid}/goal_images/${fileName}`);
+      oldImageRef.delete();
     }
+      //const goalImageURL = await uploadImageAsync(goalImage);
+      //console.log("goalImageURL: " + goalImageURL);
+      firebase.database().ref(`users/${currentUser.uid}/goals/${goalID}`)
+      .set({
+        goalID: goalID,
+        goalTitle: goalTitle,
+        goalDescription: goalDescription,
+        fileName: uploadInfo.fileName,
+        goalImage: uploadInfo.goalImageURL
+      });
+
   };
 };
 
