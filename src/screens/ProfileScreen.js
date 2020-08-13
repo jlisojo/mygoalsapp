@@ -4,8 +4,8 @@ import ProfileGoalsList from '../components/ProfileGoalsList';
 
 class ProfileScreen extends Component {
   render() {
-    console.log("ProfileScreen");
-    console.log(this.props);
+    // console.log("ProfileScreen");
+    // console.log(this.props);
     return (
       <View style={styles.container}>
         <Image

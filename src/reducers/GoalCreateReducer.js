@@ -5,13 +5,15 @@ import {
   GOAL_CREATE_SUCCESS,
   GOAL_CREATE_FAILED,
   GOAL_CREATE,
-  GOAL_UPDATE
+  GOAL_UPDATE,
+  GOAL_SAVE
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  key: '',
+  goalID: '',
   goalTitle: 'Test Title',
   goalDescription: 'Test Description',
+  fileName: '',
   goalImage: null,
   user: null,
   errorMessage: '',
@@ -30,6 +32,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, ...INITIAL_STATE, goals: action.payload };
     case GOAL_UPDATE:
       return { ...state, [action.payload.prop]: action.payload.value };
+    case GOAL_SAVE:
+      return { ...state, ...INITIAL_STATE, goals: action.payload };
     case GOAL_CREATE_SUCCESS:
       return { ...state, goals: action.payload, errorMessage: '', isLoading: false };
     case GOAL_CREATE_FAILED:

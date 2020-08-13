@@ -113,9 +113,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    key: state.goal.key,
+    goalID: state.goal.goalID,
     goalTitle: state.goal.goalTitle,
     goalDescription: state.goal.goalDescription,
+    fileName: state.goal.fileName,
     goalImage: state.goal.goalImage,
     errorMessage: state.goal.errorMessage,
     isLoading: state.goal.isLoading

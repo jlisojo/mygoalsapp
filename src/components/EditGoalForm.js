@@ -13,15 +13,16 @@ class EditGoalForm extends Component {
     super(props);
     console.log("EditGoalForm");
     _.each(this.props.route.params.goal, (value, prop) => {
-      console.log(prop + " => " + value);
+      // console.log(prop + " => " + value);
       this.props.goalUpdate({ prop, value });
     });
   }
 
   onButtonPress() {
-    const { goalTitle, goalDescription, goalImage, key } = this.props;
-    console.log(goalTitle, goalDescription, goalImage, key);
-    // this.props.editGoal({ goalTitle, goalDescription, goalImage, key });
+    const { goalTitle, goalDescription, fileName, goalImage, goalID } = this.props;
+    // console.log(this.props);
+    // console.log(goalTitle, goalDescription, fileName, goalImage, goalID);
+    this.props.editGoal({ goalTitle, goalDescription, fileName, goalImage, goalID });
   }
 
   renderButton() {
@@ -54,9 +55,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    key: state.goal.key,
+    goalID: state.goal.goalID,
     goalTitle: state.goal.goalTitle,
     goalDescription: state.goal.goalDescription,
+    fileName: state.goal.fileName,
     goalImage: state.goal.goalImage,
     errorMessage: state.goal.errorMessage,
     isLoading: state.goal.isLoading

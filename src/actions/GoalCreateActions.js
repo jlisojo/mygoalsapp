@@ -9,6 +9,7 @@ import {
   GOAL_CREATE_FAILED,
   GOAL_CREATE,
   GOAL_UPDATE,
+  GOAL_SAVE,
   GOAL_FETCH_SUCCESS
 } from './types';
 
@@ -70,15 +71,15 @@ async function uploadImageAsync(uri) {
   const fileName = `${uuid}.${fileExtension}`;
   const ref = firebase
     .storage()
-    .ref(`users/${currentUser.uid}/images`)
+    .ref(`users/${currentUser.uid}/goal_images`)
     .child(fileName);
   const snapshot = await ref.put(blob);
 
   // We're done with the blob, close and release it
   blob.close();
-  const downloadURL = await snapshot.ref.getDownloadURL();
+  const goalImageURL = await snapshot.ref.getDownloadURL();
 
-  return downloadURL;
+  return { fileName, goalImageURL };
 }
 
 
@@ -88,15 +89,15 @@ export const createGoal = ({ goalTitle, goalDescription, goalImage }) => {
     // create/save a goal to firebase db
     const { currentUser } = firebase.auth();
     if(goalImage) {
-      const goalImageURL = await uploadImageAsync(goalImage);
+      const { fileName, goalImageURL } = await uploadImageAsync(goalImage);
       //console.log("goalImageURL: " + goalImageURL);
 
       firebase.database().ref(`users/${currentUser.uid}/goals`)
       .push({ goalTitle, goalDescription, goalImage: goalImageURL })
       .then((snap) => {
-        const key = snap.key;
-        firebase.database().ref(`users/${currentUser.uid}/goals/${key}`)
-        .set({ key, goalTitle, goalDescription, goalImage: goalImageURL });
+        const goalID = snap.key;
+        firebase.database().ref(`users/${currentUser.uid}/goals/${goalID}`)
+        .set({ goalID, goalTitle, goalDescription, fileName, goalImage: goalImageURL });
       });
     } else {
       //firebase.database().ref(`users/${currentUser.uid}/goals`)
@@ -105,7 +106,7 @@ export const createGoal = ({ goalTitle, goalDescription, goalImage }) => {
   };
 };
 
-export const editGoal = ({ goalTitle, goalDescription, goalImage, uid }) => {
+export const editGoal = ({ goalTitle, goalDescription, fileName, goalImage, key }) => {
   return async (dispatch) => {
     dispatch({ type: GOAL_SAVE });
     // create/save a goal to firebase db
@@ -113,8 +114,8 @@ export const editGoal = ({ goalTitle, goalDescription, goalImage, uid }) => {
     if(goalImage) {
       const goalImageURL = await uploadImageAsync(goalImage);
       //console.log("goalImageURL: " + goalImageURL);
-      firebase.database().ref(`users/${currentUser.uid}/goals/${uid}`)
-      .set({ goalTitle, goalDescription, goalImage: goalImageURL });
+      firebase.database().ref(`users/${currentUser.uid}/goals/${key}`)
+      .set({ key, goalTitle, goalDescription, fileName, goalImage: goalImageURL });
     } else {
       //firebase.database().ref(`users/${currentUser.uid}/goals`)
       //.push({ goalTitle, goalDescription });

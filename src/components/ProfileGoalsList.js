@@ -13,15 +13,14 @@ class ProfileGoalsList extends Component {
   }
 
   renderItem({ item }) {
-    // console.log(this.props.goalsData);
     return <ProfileGoal goal={this.props.goalsData[item]} navigation={this.props.navigation} />;
   }
 
   // keyExtractor={this.extractKey.bind(this)}
-  // extractKey(item, index) {
-  //   // console.log(item);
-  //   return item;
-  // }
+  extractKey(item, index) {
+    // console.log(item);
+    return item;
+  }
 
   isEmpty(obj) {
     for(var prop in obj) {
@@ -47,7 +46,7 @@ class ProfileGoalsList extends Component {
         <FlatList
           data={this.getData()}
           renderItem={this.renderItem.bind(this)}
-          keyExtractor={item => item.key}
+          keyExtractor={this.extractKey.bind(this)}
         />
       </SafeAreaView>
     );

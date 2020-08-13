@@ -4,8 +4,8 @@ import EditGoalForm from '../components/EditGoalForm';
 
 class GoalDetailsScreen extends Component {
   render() {
-    console.log("GoalDetailsScreen");
-    console.log(this.props);
+    // console.log("GoalDetailsScreen");
+    // console.log(this.props);
     return (
 
         <KeyboardAvoidingView
