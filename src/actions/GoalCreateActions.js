@@ -112,10 +112,11 @@ export const createGoal = ({ goalTitle, goalDescription, goalImage }) => {
   };
 };
 
+// edit a goal already inside firebase db
 export const editGoal = ({ goalTitle, goalDescription, fileName, hasNewGoalImage, goalImage, goalID }) => {
   return async (dispatch) => {
+
     dispatch({ type: GOAL_SAVE });
-    // create/save a goal to firebase db
     const { currentUser } = firebase.auth();
     var uploadInfo = null;
     if(hasNewGoalImage) {
@@ -125,18 +126,21 @@ export const editGoal = ({ goalTitle, goalDescription, fileName, hasNewGoalImage
       // delete old image
       const oldImageRef = firebase.storage().ref(`users/${currentUser.uid}/goal_images/${fileName}`);
       oldImageRef.delete();
+    } else {
+      uploadInfo = { fileName: fileName, goalImageURL: goalImage };
     }
-      //const goalImageURL = await uploadImageAsync(goalImage);
-      //console.log("goalImageURL: " + goalImageURL);
-      firebase.database().ref(`users/${currentUser.uid}/goals/${goalID}`)
-      .set({
-        goalID: goalID,
-        goalTitle: goalTitle,
-        goalDescription: goalDescription,
-        fileName: uploadInfo.fileName,
-        goalImage: uploadInfo.goalImageURL
-      });
 
+    firebase.database().ref(`users/${currentUser.uid}/goals/${goalID}`)
+    .set({
+      goalID: goalID,
+      goalTitle: goalTitle,
+      goalDescription: goalDescription,
+      fileName: uploadInfo.fileName,
+      goalImage: uploadInfo.goalImageURL
+    })
+    .then(() => {
+      RootNavigation.navigate('Home');
+    });
   };
 };
 
@@ -157,7 +161,7 @@ const goalCreateSuccess = (dispatch, goals) => {
       type: GOAL_CREATE_SUCCESS,
       payload: goals
     });
-    RootNavigation.navigate('Profile',{});
+    RootNavigation.navigate('Home');
   };
 };
 

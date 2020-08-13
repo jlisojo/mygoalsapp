@@ -20,8 +20,6 @@ class EditGoalForm extends Component {
 
   onButtonPress() {
     const { goalTitle, goalDescription, fileName, hasNewGoalImage, goalImage, goalID } = this.props;
-    console.log(this.props);
-    // console.log(goalTitle, goalDescription, fileName, goalImage, goalID);
     this.props.editGoal({ goalTitle, goalDescription, fileName, hasNewGoalImage, goalImage, goalID });
   }
 
