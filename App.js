@@ -102,9 +102,11 @@ class App extends Component {
     return (
       <Provider store={store}>
         <NavigationContainer ref={navigationRef}>
-          <Stack.Navigator>
-            <Stack.Screen  name="MyGoals" component={AuthenticationTabs} />
-          </Stack.Navigator>
+          <Tab.Navigator screenOptions={{ tabBarVisible: false }}>
+            <Tab.Screen name="Login" component={LoginScreen} />
+            <Tab.Screen name="Register" component={RegisterScreen} />
+            <Tab.Screen name="Main" component={MainTabs} />
+          </Tab.Navigator>
         </NavigationContainer>
       </Provider>
     );
