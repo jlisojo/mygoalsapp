@@ -19,4 +19,5 @@ export const GOAL_CREATE_FAILED = 'goal_create_failed';
 export const GOAL_CREATE = 'goal_create';
 export const GOAL_UPDATE = 'goal_update';
 export const GOAL_SAVE = 'goal_save';
-export const GOAL_FETCH_SUCCESS = 'goal_fetch_succes';
+export const GOAL_SAVE_SUCCESS = 'goal_save_success';
+export const GOAL_FETCH_SUCCESS = 'goal_fetch_success';

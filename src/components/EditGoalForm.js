@@ -11,9 +11,7 @@ class EditGoalForm extends Component {
 
   constructor(props) {
     super(props);
-    console.log("EditGoalForm");
     _.each(this.props.route.params.goal, (value, prop) => {
-      // console.log(prop + " => " + value);
       this.props.goalUpdate({ prop, value });
     });
   }

@@ -139,7 +139,7 @@ export const editGoal = ({ goalTitle, goalDescription, fileName, hasNewGoalImage
       goalImage: uploadInfo.goalImageURL
     })
     .then(() => {
-      RootNavigation.navigate('Home');
+      //RootNavigation.navigate('Home');
     });
   };
 };
