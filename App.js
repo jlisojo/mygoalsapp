@@ -13,32 +13,22 @@ import { Header, Spinner, Card, CardSection } from './src/components/common';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
+import EditProfileModalScreen from './src/screens/EditProfileModalScreen';
 import CreateGoalsScreen from './src/screens/CreateGoalsScreen';
 import GoalDetailsScreen from './src/screens/GoalDetailsScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import reducers from './src/reducers';
 
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
 const StackHome = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function HomeStack() {
   return (
     <StackHome.Navigator initialRouteName="Profile">
-      <StackHome.Screen
-        name="Profile"
-        options={{
-          headerRight: () => (
-            <Button
-              onPress={() => alert('This is a button!')}
-              title="Info"
-              color="#fff"
-            />
-          ),
-        }}
-        component={ProfileScreen}
-      />
+      <StackHome.Screen name="Profile" component={ProfileScreen} />
       <StackHome.Screen name="GoalDetails" component={GoalDetailsScreen} />
+      <StackHome.Screen mode="modal" name="EditProfileModalScreen" component={EditProfileModalScreen} />
     </StackHome.Navigator>
   );
 }

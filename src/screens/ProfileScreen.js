@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import ProfileGoalsList from '../components/ProfileGoalsList';
 
 class ProfileScreen extends Component {
+
+  _onPressButton() {
+    //console.log(this);
+    //this.props.navigation.navigate('EditProfileModalScreen');
+  }
+
   render() {
     // console.log("ProfileScreen");
     // console.log(this.props);
@@ -13,6 +19,11 @@ class ProfileScreen extends Component {
           source={require('../../assets/josh.jpg')}
         />
         <Text style={styles.userName}>Joshua Lisojo</Text>
+
+        <TouchableOpacity onPress={this._onPressButton} style={styles.profileButton}>
+          <Text style={styles.profileButtonText}>Edit Profile</Text>
+        </TouchableOpacity>
+
         <ProfileGoalsList navigation={this.props.navigation} />
       </View>
     );
@@ -33,6 +44,20 @@ const styles = StyleSheet.create({
   userName: {
     padding: 15,
     alignSelf: 'center',
+  },
+  profileButtonText: {
+    fontSize: 12,
+    color: "#00f",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase"
+  },
+  profileButton: {
+
+    padding: 5,
+    fontSize: 12,
+    width: 100,
+    alignSelf: "center",
   }
 });
 
