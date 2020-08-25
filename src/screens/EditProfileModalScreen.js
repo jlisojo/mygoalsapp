@@ -4,10 +4,6 @@ import ProfileGoalsList from '../components/ProfileGoalsList';
 
 class EditProfileModalScreen extends Component {
 
-  _onPressButton() {
-    // this.props.navigation.navigate('EditProfileModalScreen');
-  }
-
   render() {
     // console.log("ProfileScreen");
     // console.log(this.props);
@@ -28,6 +24,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  profileImage: {
+    width: 250,
+    height: 250,
+    alignSelf: 'center',
+    borderRadius: 6,
+    marginTop: 30,
+    marginBottom: 30,
+  },
+  userName: {
+    alignSelf: 'center',
+  }
 });
 
 export default EditProfileModalScreen;

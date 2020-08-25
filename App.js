@@ -19,6 +19,7 @@ import GoalDetailsScreen from './src/screens/GoalDetailsScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import reducers from './src/reducers';
 
+
 // const Stack = createStackNavigator();
 const StackHome = createStackNavigator();
 const Tab = createBottomTabNavigator();

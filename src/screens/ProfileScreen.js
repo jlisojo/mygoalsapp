@@ -4,14 +4,7 @@ import ProfileGoalsList from '../components/ProfileGoalsList';
 
 class ProfileScreen extends Component {
 
-  _onPressButton() {
-    //console.log(this);
-    //this.props.navigation.navigate('EditProfileModalScreen');
-  }
-
   render() {
-    // console.log("ProfileScreen");
-    // console.log(this.props);
     return (
       <View style={styles.container}>
         <Image
@@ -20,7 +13,9 @@ class ProfileScreen extends Component {
         />
         <Text style={styles.userName}>Joshua Lisojo</Text>
 
-        <TouchableOpacity onPress={this._onPressButton} style={styles.profileButton}>
+        <TouchableOpacity
+          onPress={() => { this.props.navigation.navigate('EditProfileModalScreen'); }} style={styles.profileButton}
+        >
           <Text style={styles.profileButtonText}>Edit Profile</Text>
         </TouchableOpacity>
 
