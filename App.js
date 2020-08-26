@@ -29,7 +29,7 @@ function HomeStack() {
     <StackHome.Navigator initialRouteName="Profile">
       <StackHome.Screen name="Profile" component={ProfileScreen} />
       <StackHome.Screen name="GoalDetails" component={GoalDetailsScreen} />
-      <StackHome.Screen mode="modal" name="EditProfileModalScreen" component={EditProfileModalScreen} />
+      <StackHome.Screen mode="modal" name="EditProfile" component={EditProfileModalScreen} />
     </StackHome.Navigator>
   );
 }

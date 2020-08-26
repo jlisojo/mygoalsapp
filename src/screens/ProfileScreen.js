@@ -14,7 +14,7 @@ class ProfileScreen extends Component {
         <Text style={styles.userName}>Joshua Lisojo</Text>
 
         <TouchableOpacity
-          onPress={() => { this.props.navigation.navigate('EditProfileModalScreen'); }} style={styles.profileButton}
+          onPress={() => { this.props.navigation.navigate('EditProfile'); }} style={styles.profileButton}
         >
           <Text style={styles.profileButtonText}>Edit Profile</Text>
         </TouchableOpacity>
